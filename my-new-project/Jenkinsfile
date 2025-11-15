@@ -1,0 +1,37 @@
+pipeline {
+    agent none
+
+    stages {
+        stage('Back-end Build') {
+            agent {
+                docker { image 'maven:3.8.1-adoptopenjdk-11' }
+            }
+            steps {
+                echo 'Building Java back-end...'
+                sh 'mvn -B clean package'
+            }
+        }
+
+        stage('Front-end Build') {
+            agent {
+                docker { image 'node:16-alpine' }
+            }
+            steps {
+                echo 'Building Node.js front-end...'
+                sh 'npm install'
+                sh 'npm run build'
+            }
+        }
+
+        stage('Integration Test') {
+            agent {
+                docker { image 'openjdk:17' }
+            }
+            steps {
+                echo 'Running integration tests...'
+                sh 'java -version'
+                // In a real app, you’d run test classes or JUnit here
+            }
+        }
+    }
+}
