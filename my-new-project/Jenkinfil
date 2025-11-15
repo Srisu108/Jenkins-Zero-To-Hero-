@@ -1,0 +1,23 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/Srisu108/Jenkins-Zero-To-Hero'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t java-hello .'
+            }
+        }
+
+        stage('Run Java App in Docker') {
+            steps {
+                sh 'docker run --rm java-hello'
+            }
+        }
+    }
+}
