@@ -56,13 +56,10 @@ pipeline {
     }
 
     stage('Update Deployment File') {
-      agent any   // run outside Docker agent
-      environment {
-        GIT_REPO_NAME = "Jenkins-Zero-To-Hero"
-        GIT_USER_NAME = "Srisu108"
-      }
+      agent none
       steps {
-        checkout scm   // ensure .git is present
+        node('master') {
+        checkout scm
         withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
           sh '''
             git config user.email "srisuu002@gmail.com"
