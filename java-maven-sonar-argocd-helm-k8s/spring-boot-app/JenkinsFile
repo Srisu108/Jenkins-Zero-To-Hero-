@@ -61,6 +61,7 @@ pipeline {
           sh '''
             git config --global user.email "srisuu002@gmail.com"
             git config --global user.name "Srisu108"
+            git config --global --add safe.directory /var/lib/jenkins/workspace/ultimate-demo4
             sed -i "s/replaceImageTag/${BUILD_NUMBER}/g" java-maven-sonar-argocd-helm-k8s/spring-boot-app-manifests/deployment.yml
             git add java-maven-sonar-argocd-helm-k8s/spring-boot-app-manifests/deployment.yml
             git commit -m "Update deployment image to version ${BUILD_NUMBER}"
